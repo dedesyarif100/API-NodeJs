@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/dedesyarif100/API-NodeJs/issues"
   },
-  "homepage": "https://github.com/dedesyarif100/API-NodeJs#readme"
+  "homepage": "https://github.com/dedesyarif100/API-NodeJs#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "mysql": "^2.18.1",
+    "sequelize": "^6.16.1"
+  }
 }
