@@ -2,6 +2,7 @@
 
 var response = require('./res');
 var connection = require('./koneksi');
+const { isInteger } = require('lodash');
 
 exports.index = function(req, res) {
     response.ok('APLIKASI REST API BERJALAN', res);
@@ -9,7 +10,15 @@ exports.index = function(req, res) {
 
 // MENAMPILKAN SEMUA DATA MAHASISWA
 exports.datamahasiswa = function(req, res) {
-    connection.query('SELECT * FROM mahasiswa', function(error, rows, fields) {
+    let page = req.query.page;
+    console.log(page);
+    let limit = 10;
+    if (page === undefined || page === '') {
+        page = 1;
+    }
+    let offset = page * 10;
+    offset = offset - limit;
+    connection.query(`SELECT * FROM mahasiswa LIMIT ? OFFSET ?`, [limit, offset], function(error, rows, fields) {
         if (error) {
             connection.log(error);
         } else {
@@ -69,6 +78,17 @@ exports.hapusMahasiswa = function(req, res) {
             connection.log(error);
         } else {
             response.ok('BERHASIL HAPUS DATA', res);
+        }
+    });
+}
+
+// MENAMPILKAN MATAKULIAH GROUP
+exports.tampilgroupmatakuliah = function(req, res) {
+    connection.query('SELECT mahasiswa.id, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan, matakuliah.matakuliah, matakuliah.sks FROM krs JOIN matakuliah JOIN mahasiswa WHERE matakuliah.id = krs.matakuliah_id AND mahasiswa.id = krs.mahasiswa_id', function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            response.oknested(rows, res);
         }
     });
 }

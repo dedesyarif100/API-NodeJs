@@ -1,10 +1,11 @@
 var mysql = require('mysql');
 
 const conn = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
-    password: '',
+    password: 'root',
     database: 'api-nodejs',
+    port: 43306
 });
 
 conn.connect((err) => {
